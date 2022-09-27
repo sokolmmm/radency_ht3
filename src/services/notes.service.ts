@@ -1,14 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import DateUtils from '../helpers/datesUtils';
-import note from '../repositories/note';
+import noteEntity from '../repositories/note';
 
-import { ICreateNotePayload } from '../types';
+import { ICreateNotePayload, IUpdateNotePayload } from '../types';
+import { NotFoundError } from '../helpers/errors';
 
 export default class NotesService {
   static createNote(payload: ICreateNotePayload) {
     const newNote = {
-      id: uuidv4(),
       name: payload.name,
       category: payload.category,
       content: payload.content,
@@ -17,6 +15,14 @@ export default class NotesService {
       isActive: true,
     };
 
-    return note.createNote(newNote);
+    return noteEntity.createNote(newNote);
+  }
+
+  static patchNote(noteId: number, payload: IUpdateNotePayload) {
+    const note = noteEntity.patchNote(noteId, payload);
+
+    if (!note) throw new NotFoundError(`User with id: ${noteId} doesn't exist`);
+
+    return note;
   }
 }

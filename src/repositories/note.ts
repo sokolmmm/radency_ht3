@@ -1,9 +1,10 @@
+/* eslint-disable class-methods-use-this */
 import fs from 'fs';
 
-import { INote } from '../types';
+import { INote, ICreateNote, IUpdateNotePayload } from '../types';
 
 class Note {
-  id: string;
+  id: number;
 
   name: string;
 
@@ -17,8 +18,8 @@ class Note {
 
   isActive: boolean;
 
-  private setNoteData(payload: INote) {
-    this.id = payload.id;
+  private setNoteData(payload: ICreateNote) {
+    this.name = payload.name;
     this.content = payload.content;
     this.category = payload.category;
     this.created = payload.created;
@@ -38,16 +39,64 @@ class Note {
     };
   }
 
-  private entityToString(): string {
-    return JSON.stringify(this.mapNote());
+  private getNotesFromDatabase() {
+    const notesList = fs.readFileSync('src/database.json').toString();
+
+    if (!notesList) {
+      return [];
+    }
+    const notes: INote[] = JSON.parse(notesList);
+
+    return notes;
   }
 
-  public createNote(payload: INote) {
+  private setNewNoteId() {
+    const notes = this.getNotesFromDatabase();
+
+    if (notes.length > 0) {
+      const lastId = notes[notes.length - 1].id;
+      this.id = lastId + 1;
+    } else {
+      this.id = 1;
+    }
+  }
+
+  private saveToDatabase(notes: INote[]) {
+    fs.writeFileSync('src/database.json', JSON.stringify(notes));
+  }
+
+  public createNote(payload: ICreateNote) {
+    this.setNewNoteId();
     this.setNoteData(payload);
 
-    fs.writeFileSync('src/database.json', this.entityToString());
+    const notes = this.getNotesFromDatabase();
+    const note = this.mapNote();
 
-    return this.mapNote();
+    notes.push(note);
+
+    this.saveToDatabase(notes);
+
+    return note;
+  }
+
+  public patchNote(noteId: number, payload: IUpdateNotePayload) {
+    const notes = this.getNotesFromDatabase();
+
+    const index = notes.findIndex((el) => el.id === +noteId);
+
+    if (!index) return null;
+
+    const note = { ...notes[index] };
+
+    note.content = payload.content || note.content;
+    note.category = payload.category || note.category;
+    note.name = payload.name || note.name;
+
+    notes[index] = { ...note };
+
+    this.saveToDatabase(notes);
+
+    return note;
   }
 }
 

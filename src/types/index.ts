@@ -5,7 +5,7 @@ export enum EnumCategories {
 }
 
 export interface INote {
-  id: string;
+  id: number;
   name: string;
   created: string;
   category: string;
@@ -18,4 +18,19 @@ export interface ICreateNotePayload {
   name: string;
   content: string;
   category: string;
+}
+
+export interface IUpdateNotePayload {
+  name?: string;
+  content?: string;
+  category?: string;
+}
+
+export interface ICreateNote extends ICreateNotePayload {
+  name: string;
+  content: string;
+  category: string;
+  created: string;
+  dates: string;
+  isActive: boolean;
 }
