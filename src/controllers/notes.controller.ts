@@ -6,10 +6,10 @@ import NotesValidator from '../helpers/validator';
 import { ICreateNotePayload } from '../types';
 
 export default class NotesController {
-  static createUser(ctx: Context) {
+  static createNote(ctx: Context) {
     const payload: ICreateNotePayload = ctx.request.body;
 
-    NotesValidator.validateCreateUserPayload(payload);
+    NotesValidator.validateCreateNotePayload(payload);
 
     const note = NotesService.createNote(payload);
 

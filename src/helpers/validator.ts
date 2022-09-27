@@ -14,7 +14,7 @@ class NotesValidator {
     ),
   });
 
-  public static validateCreateUserPayload(payload: ICreateNotePayload) {
+  public static validateCreateNotePayload(payload: ICreateNotePayload) {
     const result = this.createNoteSchema.validate(payload);
     if (result.error) throw new NotFoundError(result.error.message);
   }

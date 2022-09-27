@@ -17,7 +17,7 @@ class Note {
 
   isActive: boolean;
 
-  private setUserData(payload: INote) {
+  private setNoteData(payload: INote) {
     this.id = payload.id;
     this.content = payload.content;
     this.category = payload.category;
@@ -42,8 +42,8 @@ class Note {
     return JSON.stringify(this.mapNote());
   }
 
-  public createUser(payload: INote) {
-    this.setUserData(payload);
+  public createNote(payload: INote) {
+    this.setNoteData(payload);
 
     fs.writeFileSync('src/database.json', this.entityToString());
 

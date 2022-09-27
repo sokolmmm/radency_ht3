@@ -17,6 +17,6 @@ export default class NotesService {
       isActive: true,
     };
 
-    return note.createUser(newNote);
+    return note.createNote(newNote);
   }
 }
