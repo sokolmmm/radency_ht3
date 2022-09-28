@@ -79,12 +79,12 @@ class Note {
     return note;
   }
 
-  public patchNote(noteId: number, payload: IUpdateNotePayload) {
+  public patchNote(id: number, payload: IUpdateNotePayload) {
     const notes = this.getNotesFromDatabase();
 
-    const index = notes.findIndex((el) => el.id === +noteId);
+    const index = notes.findIndex((el) => el.id === +id);
 
-    if (!index) return null;
+    if (index < 0) return null;
 
     const note = { ...notes[index] };
 
@@ -93,6 +93,34 @@ class Note {
     note.name = payload.name || note.name;
 
     notes[index] = { ...note };
+
+    this.saveToDatabase(notes);
+
+    return note;
+  }
+
+  public getById(id: string) {
+    const notes = this.getNotesFromDatabase();
+
+    const index = notes.findIndex((el) => el.id === +id);
+
+    if (index < 0) return null;
+
+    const note = { ...notes[index] };
+
+    return note;
+  }
+
+  public deleteNote(id: string) {
+    const notes = this.getNotesFromDatabase();
+
+    const index = notes.findIndex((el) => el.id === +id);
+
+    if (index < 0) return null;
+
+    const note = { ...notes[index] };
+
+    notes.splice(index, 1);
 
     this.saveToDatabase(notes);
 

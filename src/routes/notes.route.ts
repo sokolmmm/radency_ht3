@@ -6,6 +6,8 @@ const notesRouter = new Router();
 
 notesRouter.post('/notes', NotesController.createNote);
 
-notesRouter.patch('/notes/:noteId', NotesController.updateNote);
+notesRouter.patch('/notes/:id', NotesController.updateNote);
+notesRouter.get('/notes/:id', NotesController.getNoteById);
+notesRouter.delete('/notes/:id', NotesController.deleteNote);
 
 export default notesRouter;

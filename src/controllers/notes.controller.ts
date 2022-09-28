@@ -17,14 +17,30 @@ export default class NotesController {
   }
 
   static updateNote(ctx: Context) {
-    const { noteId } = ctx.params;
+    const { id } = ctx.params;
 
     const payload: IUpdateNotePayload = ctx.request.body;
 
     NotesValidator.validateUpdateNotePayload(payload);
 
-    const note = NotesService.patchNote(noteId, payload);
+    const note = NotesService.patchNote(id, payload);
 
     ctx.body = note;
+  }
+
+  static getNoteById(ctx: Context) {
+    const { id } = ctx.params;
+
+    const note = NotesService.getNoteById(id);
+
+    ctx.body = note;
+  }
+
+  static deleteNote(ctx: Context) {
+    const { id } = ctx.params;
+
+    NotesService.deleteNote(id);
+
+    ctx.response.status = 204;
   }
 }

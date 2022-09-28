@@ -18,10 +18,26 @@ export default class NotesService {
     return noteEntity.createNote(newNote);
   }
 
-  static patchNote(noteId: number, payload: IUpdateNotePayload) {
-    const note = noteEntity.patchNote(noteId, payload);
+  static patchNote(id: number, payload: IUpdateNotePayload) {
+    const note = noteEntity.patchNote(id, payload);
 
-    if (!note) throw new NotFoundError(`User with id: ${noteId} doesn't exist`);
+    if (!note) throw new NotFoundError(`The note  with id: ${id} doesn't exist`);
+
+    return note;
+  }
+
+  static getNoteById(id: string) {
+    const note = noteEntity.getById(id);
+
+    if (!note) throw new NotFoundError(`The note with id: ${id} doesn't exist`);
+
+    return note;
+  }
+
+  static deleteNote(id: string) {
+    const note = noteEntity.deleteNote(id);
+
+    if (!note) throw new NotFoundError(`The note with id: ${id} doesn't exist`);
 
     return note;
   }
