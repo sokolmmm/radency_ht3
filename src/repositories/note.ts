@@ -2,7 +2,7 @@
 import fs from 'fs';
 
 import {
-  INote, ICreateNote, IUpdateNotePayload, EnumOrderBy,
+  INote, ICreateNote, IUpdateNotePayload, EnumOrderBy, EnumCategories,
 } from '../types';
 
 class Note {
@@ -81,7 +81,7 @@ class Note {
     return note;
   }
 
-  public patchNote(id: number, payload: IUpdateNotePayload) {
+  public updateNote(id: number, payload: IUpdateNotePayload) {
     const notes = this.getNotesFromDatabase();
 
     const index = notes.findIndex((el) => el.id === +id);
@@ -101,7 +101,7 @@ class Note {
     return note;
   }
 
-  public getById(id: string) {
+  public getNote(id: string) {
     const notes = this.getNotesFromDatabase();
 
     const index = notes.findIndex((el) => el.id === +id);
@@ -129,7 +129,7 @@ class Note {
     return note;
   }
 
-  public getAllNotes(skip: number, take: number, orderBy: EnumOrderBy) {
+  public getNotesBySearchParams(skip: number, take: number, orderBy: EnumOrderBy) {
     const notes = this.getNotesFromDatabase();
 
     const resultList = notes.splice(skip, take).sort((a, b) => {
@@ -140,6 +140,24 @@ class Note {
     });
 
     return resultList;
+  }
+
+  public getStatsByCategory(category: EnumCategories) {
+    const notes = this.getNotesFromDatabase();
+
+    const activeSummaryByCategory = notes.filter(
+      (item) => item.category === category && item.isActive,
+    ).length;
+
+    const archivedSummaryByCategory = notes.filter(
+      (item) => item.category === category && !item.isActive,
+    ).length;
+
+    return {
+      category,
+      active: activeSummaryByCategory,
+      archived: archivedSummaryByCategory,
+    };
   }
 }
 

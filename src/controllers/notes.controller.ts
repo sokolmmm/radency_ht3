@@ -16,24 +16,24 @@ export default class NotesController {
     ctx.body = note;
   }
 
-  static getAllNotes(ctx: Context) {
+  static getNotesBySearchParams(ctx: Context) {
     const searchParams: ISearchNotesParams = ctx.query;
 
     NotesValidator.validateSearchNotesParams(searchParams);
 
-    const notes = NotesService.getAllNotes(searchParams);
+    const notes = NotesService.getNotesBySearchParams(searchParams);
 
     ctx.body = notes;
   }
 
-  static updateNote(ctx: Context) {
+  static updateNoteById(ctx: Context) {
     const { id } = ctx.params;
 
     const payload: IUpdateNotePayload = ctx.request.body;
 
     NotesValidator.validateUpdateNotePayload(payload);
 
-    const note = NotesService.patchNote(id, payload);
+    const note = NotesService.updateNoteById(id, payload);
 
     ctx.body = note;
   }
@@ -46,11 +46,17 @@ export default class NotesController {
     ctx.body = note;
   }
 
-  static deleteNote(ctx: Context) {
+  static deleteNoteById(ctx: Context) {
     const { id } = ctx.params;
 
-    NotesService.deleteNote(id);
+    NotesService.deleteNoteById(id);
 
     ctx.response.status = 204;
+  }
+
+  static getStats(ctx: Context) {
+    const stats = NotesService.getStats();
+
+    ctx.body = stats;
   }
 }

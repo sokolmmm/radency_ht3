@@ -45,3 +45,9 @@ export interface ICreateNote extends ICreateNotePayload {
   dates: string;
   isActive: boolean;
 }
+
+export interface ISummaryByCategories {
+  category: string;
+  active: number;
+  archived: number;
+}

@@ -5,10 +5,12 @@ import NotesController from '../controllers/notes.controller';
 const notesRouter = new Router();
 
 notesRouter.post('/notes', NotesController.createNote);
-notesRouter.get('/notes', NotesController.getAllNotes);
+notesRouter.get('/notes', NotesController.getNotesBySearchParams);
 
-notesRouter.patch('/notes/:id', NotesController.updateNote);
+notesRouter.get('/notes/stats', NotesController.getStats);
+
 notesRouter.get('/notes/:id', NotesController.getNoteById);
-notesRouter.delete('/notes/:id', NotesController.deleteNote);
+notesRouter.patch('/notes/:id', NotesController.updateNoteById);
+notesRouter.delete('/notes/:id', NotesController.deleteNoteById);
 
 export default notesRouter;
