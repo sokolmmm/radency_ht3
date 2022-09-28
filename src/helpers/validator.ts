@@ -21,6 +21,7 @@ class NotesValidator {
   private static updateNoteSchema = Joi.object({
     name: Joi.string().min(5).max(50),
     content: Joi.string().min(5).max(200),
+    isActive: Joi.boolean(),
     category: Joi.string().valid(
       EnumCategories.IDEA,
       EnumCategories.RANDOM_THOUGHT,

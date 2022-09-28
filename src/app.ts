@@ -2,8 +2,8 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 
 import config from './config/config';
-import errorCatcher from './middleware/errorCatcher';
 import notesRouter from './routes/notes.route';
+import errorCatcher from './middleware/errorCatcher';
 
 const app = new Koa();
 

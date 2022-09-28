@@ -9,12 +9,6 @@ export enum EnumOrderBy {
   DESC = 'desc',
 }
 
-export interface ISearchNotesParams {
-  page?: number;
-  limit?: number;
-  orderBy?: EnumOrderBy;
-}
-
 export interface INote {
   id: number;
   name: string;
@@ -35,6 +29,7 @@ export interface IUpdateNotePayload {
   name?: string;
   content?: string;
   category?: string;
+  isActive?: boolean;
 }
 
 export interface ICreateNote extends ICreateNotePayload {
@@ -44,6 +39,12 @@ export interface ICreateNote extends ICreateNotePayload {
   created: string;
   dates: string;
   isActive: boolean;
+}
+
+export interface ISearchNotesParams {
+  page?: number;
+  limit?: number;
+  orderBy?: EnumOrderBy;
 }
 
 export interface ISummaryByCategories {

@@ -29,6 +29,31 @@ class Note {
     this.isActive = payload.isActive;
   }
 
+  private setNewData(note: INote, payload: IUpdateNotePayload) {
+    const result = { ...note };
+    result.content = payload.content || result.content;
+    result.category = payload.category || result.category;
+    result.name = payload.name || result.name;
+
+    const key = 'isActive';
+    const hasKey = key in payload;
+    if (hasKey) {
+      result.isActive = payload.isActive;
+    }
+    return result;
+  }
+
+  private setNewNoteId() {
+    const notes = this.getNotesFromDatabase();
+
+    if (notes.length > 0) {
+      const lastId = notes[notes.length - 1].id;
+      this.id = lastId + 1;
+    } else {
+      this.id = 1;
+    }
+  }
+
   private mapNote(): INote {
     return {
       id: this.id,
@@ -52,15 +77,14 @@ class Note {
     return notes;
   }
 
-  private setNewNoteId() {
+  private getNoteByIdFromDatabase(id: string) {
     const notes = this.getNotesFromDatabase();
 
-    if (notes.length > 0) {
-      const lastId = notes[notes.length - 1].id;
-      this.id = lastId + 1;
-    } else {
-      this.id = 1;
-    }
+    const index = notes.findIndex((el) => el.id === +id);
+
+    if (index < 0) return null;
+
+    return { notes, index };
   }
 
   private saveToDatabase(notes: INote[]) {
@@ -81,20 +105,16 @@ class Note {
     return note;
   }
 
-  public updateNote(id: number, payload: IUpdateNotePayload) {
-    const notes = this.getNotesFromDatabase();
+  public updateNote(id: string, payload: IUpdateNotePayload) {
+    const notesFromDatabase = this.getNoteByIdFromDatabase(id);
 
-    const index = notes.findIndex((el) => el.id === +id);
+    if (!notesFromDatabase) return null;
 
-    if (index < 0) return null;
+    const { notes, index } = notesFromDatabase;
 
-    const note = { ...notes[index] };
+    const note = this.setNewData(notes[index], payload);
 
-    note.content = payload.content || note.content;
-    note.category = payload.category || note.category;
-    note.name = payload.name || note.name;
-
-    notes[index] = { ...note };
+    notes[index] = note;
 
     this.saveToDatabase(notes);
 
@@ -102,23 +122,21 @@ class Note {
   }
 
   public getNote(id: string) {
-    const notes = this.getNotesFromDatabase();
+    const notesFromDatabase = this.getNoteByIdFromDatabase(id);
 
-    const index = notes.findIndex((el) => el.id === +id);
+    if (!notesFromDatabase) return null;
 
-    if (index < 0) return null;
+    const { notes, index } = notesFromDatabase;
 
-    const note = { ...notes[index] };
-
-    return note;
+    return notes[index];
   }
 
   public deleteNote(id: string) {
-    const notes = this.getNotesFromDatabase();
+    const notesFromDatabase = this.getNoteByIdFromDatabase(id);
 
-    const index = notes.findIndex((el) => el.id === +id);
+    if (!notesFromDatabase) return null;
 
-    if (index < 0) return null;
+    const { notes, index } = notesFromDatabase;
 
     const note = { ...notes[index] };
 
