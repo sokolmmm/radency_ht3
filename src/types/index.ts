@@ -4,6 +4,17 @@ export enum EnumCategories {
   IDEA = 'Idea',
 }
 
+export enum EnumOrderBy {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
+export interface ISearchNotesParams {
+  page?: number;
+  limit?: number;
+  orderBy?: EnumOrderBy;
+}
+
 export interface INote {
   id: number;
   name: string;

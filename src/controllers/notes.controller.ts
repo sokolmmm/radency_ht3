@@ -3,7 +3,7 @@ import { Context } from 'koa';
 import NotesService from '../services/notes.service';
 import NotesValidator from '../helpers/validator';
 
-import { ICreateNotePayload, IUpdateNotePayload } from '../types';
+import { ICreateNotePayload, ISearchNotesParams, IUpdateNotePayload } from '../types';
 
 export default class NotesController {
   static createNote(ctx: Context) {
@@ -14,6 +14,16 @@ export default class NotesController {
     const note = NotesService.createNote(payload);
 
     ctx.body = note;
+  }
+
+  static getAllNotes(ctx: Context) {
+    const searchParams: ISearchNotesParams = ctx.query;
+
+    NotesValidator.validateSearchNotesParams(searchParams);
+
+    const notes = NotesService.getAllNotes(searchParams);
+
+    ctx.body = notes;
   }
 
   static updateNote(ctx: Context) {

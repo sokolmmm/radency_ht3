@@ -1,7 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import fs from 'fs';
 
-import { INote, ICreateNote, IUpdateNotePayload } from '../types';
+import {
+  INote, ICreateNote, IUpdateNotePayload, EnumOrderBy,
+} from '../types';
 
 class Note {
   id: number;
@@ -125,6 +127,19 @@ class Note {
     this.saveToDatabase(notes);
 
     return note;
+  }
+
+  public getAllNotes(skip: number, take: number, orderBy: EnumOrderBy) {
+    const notes = this.getNotesFromDatabase();
+
+    const resultList = notes.splice(skip, take).sort((a, b) => {
+      if (orderBy === EnumOrderBy.DESC) {
+        return b.id - a.id;
+      }
+      return a.id - b.id;
+    });
+
+    return resultList;
   }
 }
 

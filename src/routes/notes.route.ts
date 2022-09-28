@@ -5,6 +5,7 @@ import NotesController from '../controllers/notes.controller';
 const notesRouter = new Router();
 
 notesRouter.post('/notes', NotesController.createNote);
+notesRouter.get('/notes', NotesController.getAllNotes);
 
 notesRouter.patch('/notes/:id', NotesController.updateNote);
 notesRouter.get('/notes/:id', NotesController.getNoteById);

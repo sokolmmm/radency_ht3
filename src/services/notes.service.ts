@@ -1,7 +1,9 @@
 import DateUtils from '../helpers/datesUtils';
 import noteEntity from '../repositories/note';
 
-import { ICreateNotePayload, IUpdateNotePayload } from '../types';
+import {
+  EnumOrderBy, ICreateNotePayload, ISearchNotesParams, IUpdateNotePayload,
+} from '../types';
 import { NotFoundError } from '../helpers/errors';
 
 export default class NotesService {
@@ -24,6 +26,18 @@ export default class NotesService {
     if (!note) throw new NotFoundError(`The note  with id: ${id} doesn't exist`);
 
     return note;
+  }
+
+  static getAllNotes(params: ISearchNotesParams) {
+    const limit = params.limit || 20;
+
+    const skip = limit * (params.page - 1) || 0;
+    const take = limit;
+    const orderBy = params.orderBy || EnumOrderBy.ASC;
+
+    const notes = noteEntity.getAllNotes(skip, take, orderBy);
+
+    return notes;
   }
 
   static getNoteById(id: string) {
