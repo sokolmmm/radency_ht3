@@ -1,0 +1,34 @@
+get:
+  summary: Get aggregated statistics
+  description: Get aggregated data statistics by category.
+  operationId: getStats
+  tags:
+    - Notes
+  responses:
+    '200':
+      content:
+        application/json:
+          description: Statistics array
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                category:
+                  type: string
+                  -enum:
+                    - Task
+                    - Idea
+                    - Random thought
+                  description: The category of the note
+                  example: Idea
+                active:
+                  type: number
+                  description: The number of active notes this category
+                  example: 3
+                archived:
+                  type: number
+                  description: The number of archived notes this category
+                  example: 2
+    default:
+      $ref: '../models/error.yml'

@@ -1,0 +1,34 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The id of the note
+    example: 7
+  name:
+    type: string
+    description: The name of the note
+    example: Home task 3
+  content:
+    type: string
+    description: The content of the note
+    example: Complete the task by 30-09-2022
+  category:
+    type: string
+    -enum:
+      - Task
+      - Idea
+      - Random thought
+    description: The category of the note
+    example: Task
+  created:
+    type: string
+    description: The date of creating the note
+    example: 10/09/2022
+  dates:
+    type: string
+    description: The list of dates mentioned in this note content
+    example: 30-09-2022
+  isActive:
+    type: boolean
+    example: false
+    description: Active status of the note
