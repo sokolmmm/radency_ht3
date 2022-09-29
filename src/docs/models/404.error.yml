@@ -1,0 +1,10 @@
+content: 
+  application/json: 
+    description: Not Found
+    schema: 
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "The note with id: 20 doesn't exist"
