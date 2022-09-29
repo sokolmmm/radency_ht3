@@ -30,6 +30,6 @@ app.use(errorCatcher);
 
 app.use(notesRouter.routes());
 
-app.listen(4000, () => {
+app.listen(config.port, () => {
   console.log(`This server runs on local host using port ${config.port}.`);
 });
