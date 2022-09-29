@@ -2,7 +2,7 @@
   "name": "radency_ht3",
   "version": "1.0.0",
   "description": "Home task 3",
-  "main": "index.js",
+  "main": "./src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
