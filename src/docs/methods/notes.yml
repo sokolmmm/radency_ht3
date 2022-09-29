@@ -84,7 +84,11 @@ post:
               example: Task
   responses:
     '200':
-      $ref: '../models/note.yml'
+      content:
+        application/json:
+          description: Note object
+          schema:
+            $ref: '../models/note.yml'
     '400':
       $ref: '../models/400.error.yml'
     default:
