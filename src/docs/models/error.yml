@@ -1,0 +1,9 @@
+content: 
+  application/json: 
+    description: Message about note status
+    schema: 
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
