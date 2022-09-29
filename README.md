@@ -3,8 +3,8 @@
 
 2. Run build `npm run build`
 
-3. Run server `npm run serve`
+3. Run server `npm run start`
 
 # Documentation
 
-[Documentation](http://localhost:4000/docs)
+[Documentation](https://radency-ht3.herokuapp.com/docs)
