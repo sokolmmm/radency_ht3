@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 
+import { NotesModule } from './notes/notes.module';
+import { DatesModule } from './dates/dates.module';
+import { Note } from './notes/notes.model';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,11 +18,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
+      models: [Note],
       define: {
         timestamps: false,
       },
       autoLoadModels: true,
     }),
+    NotesModule,
+    DatesModule,
   ],
 })
 export class AppModule {}
