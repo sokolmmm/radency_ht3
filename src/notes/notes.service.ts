@@ -3,9 +3,10 @@ import sequelize from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import { Note } from './notes.model';
+import { Note, EnumCategories } from './notes.model';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { GetNotesQueryDto, EnumOrderBy } from './dto/get-notes-query.dto';
 import { DatesService } from './../dates/dates.service';
 
 @Injectable()
@@ -28,10 +29,10 @@ export class NotesService {
     return note;
   }
 
-  async getAllNotes(limit: number, page: number, orderBy: string) {
-    const take = limit || 20;
-    const offset = take * (page - 1 || 0);
-    const order = orderBy || 'ASC';
+  async getAllNotes(getNotesQueryDto: GetNotesQueryDto) {
+    const take = getNotesQueryDto.limit || 20;
+    const offset = take * (getNotesQueryDto.page - 1 || 0);
+    const order = getNotesQueryDto.orderBy || EnumOrderBy.ASC;
 
     const notes = await this.noteRepository.findAll({
       limit: take,
@@ -43,6 +44,7 @@ export class NotesService {
   }
 
   async getNoteById(id: string) {
+    console.log(id);
     const note = await this.noteRepository.findByPk(id);
 
     if (!note) {
@@ -78,7 +80,11 @@ export class NotesService {
   }
 
   async getStats() {
-    const categories = ['Idea', 'Random thought', 'Task'];
+    const categories = [
+      EnumCategories.IDEA,
+      EnumCategories.RANDOM_THOUGHT,
+      EnumCategories.TASK,
+    ];
 
     const result = await Promise.all(
       categories.map(async (category) => {

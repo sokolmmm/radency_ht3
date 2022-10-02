@@ -7,28 +7,28 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
 } from '@nestjs/common';
 
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { GetNotesQueryDto } from './dto/get-notes-query.dto';
+import { ValidationPipe } from './../pipes/validation.pipe';
 import { NotesService } from './notes.service';
 
 @Controller('notes')
 export class NotesController {
   constructor(private notesService: NotesService) {}
-
+  @UsePipes(ValidationPipe)
   @Post()
   crateNote(@Body() noteDto: CreateNoteDto) {
     return this.notesService.createUser(noteDto);
   }
 
+  @UsePipes(ValidationPipe)
   @Get()
-  getAllNotes(
-    @Query('limit') limit: number,
-    @Query('page') page: number,
-    @Query('orderBy') orderBy: string,
-  ) {
-    return this.notesService.getAllNotes(limit, page, orderBy);
+  getAllNotes(@Query() getNotesQueryDto: GetNotesQueryDto) {
+    return this.notesService.getAllNotes(getNotesQueryDto);
   }
 
   @Get('/stats')
@@ -48,9 +48,10 @@ export class NotesController {
 
   @Patch('/:noteId')
   updateNoteById(
-    @Param('noteId') noteId: string,
-    @Body() noteDto: UpdateNoteDto,
+    @Param('noteId') id: string,
+    @Body(new ValidationPipe())
+    noteDto: UpdateNoteDto,
   ) {
-    return this.notesService.updateNoteById(noteId, noteDto);
+    return this.notesService.updateNoteById(id, noteDto);
   }
 }

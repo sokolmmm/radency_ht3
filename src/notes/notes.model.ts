@@ -1,5 +1,11 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
+export enum EnumCategories {
+  TASK = 'Task',
+  IDEA = 'Idea',
+  RANDOM_THOUGHT = 'Random thought',
+}
+
 interface NoteCreationAttrs {
   name: string;
   content: string;
