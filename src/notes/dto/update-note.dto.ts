@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEnum,
   IsOptional,
   IsString,
@@ -39,6 +40,6 @@ export class UpdateNoteDto {
   readonly category: string;
 
   @IsOptional()
-  @Type(() => Boolean)
+  @IsBoolean({ message: 'must be a boolean value' })
   readonly isActive: boolean;
 }
