@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { NotesModule } from './notes/notes.module';
+import { DatesModule } from './dates/dates.module';
 
 @Module({
   imports: [
@@ -17,9 +18,13 @@ import { NotesModule } from './notes/notes.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       models: [Note],
-      // autoLoadModels: true,
+      define: {
+        timestamps: false,
+      },
+      autoLoadModels: true,
     }),
     NotesModule,
+    DatesModule,
   ],
 })
 export class AppModule {}
